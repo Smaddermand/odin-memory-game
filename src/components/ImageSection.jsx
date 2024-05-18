@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 
 export default function ImageSection() {
     const [imageUrls, setImageUrls] = useState([]);
+    const [currentScore, setCurrentScore] = useState([]);
+    const [highScore, setHighScore] = useState(0);
+    
 
     useEffect(() => {
         fetchPokemons();
@@ -36,18 +39,41 @@ export default function ImageSection() {
         });
     };
 
+
+    const addToCurrentScore = (url) => {
+        if(!currentScore.includes(url)) {
+        setCurrentScore(prevScore => [...prevScore, url]);
+        } else {
+            CheckIfNewHighScore(currentScore.length);
+            setCurrentScore([])
+        }
+        
+
+    }
+
+    const CheckIfNewHighScore= (currentScore) => {
+        if(currentScore > highScore) {
+            setHighScore(currentScore)
+        }
+
+    }
+
     return (
         <div>
             <h2>The Images are here</h2>
             {imageUrls.length > 0 ? (
                 <div>
                     {imageUrls.map((url, index) => (
-                        <img key={index} src={url} alt={`Pokemon ${index + 1}`} onClick={shuffleImages} />
+                        <img key={index} src={url} alt={`Pokemon ${index + 1}`} onClick={() => {shuffleImages(); addToCurrentScore(url); }} />
                     ))}
                 </div>
             ) : (
                 <p>Loading...</p>
             )}
+
+            <h2>Score: {currentScore.length} </h2>
+            
+            <h2>High Score: {highScore}</h2>
         </div>
     );
 }
