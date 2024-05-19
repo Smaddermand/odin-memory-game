@@ -60,7 +60,7 @@ export default function ImageSection() {
 
     return (
         <div>
-            <h2>The Images are here</h2>
+            <h2>Catch each Pokomon - but only once!</h2>
             {imageUrls.length > 0 ? (
                 <div>
                     {imageUrls.map((url, index) => (
